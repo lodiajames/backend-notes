@@ -26,7 +26,7 @@ const persons= [
 
 
 app.get('/', (request, response)=>{
-    response.send('<h1>Salam World!</h1>')
+    response.send('<h1>Hello world!</h1>')
 })
 
 app.get('/info', (request, response)=>{
@@ -40,6 +40,17 @@ app.get('/api/persons',(request, response)=>{
     console.log(persons)
     response.json(persons)
    
+})
+
+app.get('/api/persons/:id', (request, response)=>{
+    id = Number(request.params.id)
+    const person =  persons.find(person=> person.id === id)
+    if(person){
+        response.json(person)
+
+    }else{
+      response.status(404).end()
+    }
 })
 
 const PORT = 3001
