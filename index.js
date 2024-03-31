@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
-
+const cors = require('cors')
+app.use(cors())
 const persons= [
     { 
       "id": 1,
@@ -37,7 +38,7 @@ app.get('/info', (request, response)=>{
   response.send(`<p>${title} <br/><br/> ${date} </p>`)
 })
 app.get('/api/persons',(request, response)=>{
-    console.log(persons)
+  
     response.json(persons)
    
 })
@@ -53,7 +54,7 @@ app.get('/api/persons/:id', (request, response)=>{
     }
 })
 
-const PORT = 3001
+const PORT =process.env.PORT || 3001
 
 
 
