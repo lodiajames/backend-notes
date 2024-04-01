@@ -1,8 +1,13 @@
+require('dotenv').config();
 const express = require('express')
 const app = express()
 const cors = require('cors')
+const Person = require('./models/person')
+const { default: mongoose } = require('mongoose')
 app.use(cors())
 app.use(express.static('dist'))
+
+
 const persons= [
     { 
       "id": 1,
@@ -26,6 +31,15 @@ const persons= [
     }
 ]
 
+// const person = new Person({
+// name: "Mary Poppendieck", 
+// number: 39236423122
+
+// })
+// person.save().then(result=>{
+//   console.log(result)
+//   mongoose.connection.close()
+// })
 
 app.get('/', (request, response)=>{
     response.send('<h1>Hello world!</h1>')
@@ -39,23 +53,28 @@ app.get('/info', (request, response)=>{
   response.send(`<p>${title} <br/><br/> ${date} </p>`)
 })
 app.get('/api/persons',(request, response)=>{
-  
-    response.json(persons)
+     Person.find({}).then(people=>{
+       response.json(people)
+       
+     })
    
 })
 
 app.get('/api/persons/:id', (request, response)=>{
-    id = Number(request.params.id)
-    const person =  persons.find(person=> person.id === id)
-    if(person){
-        response.json(person)
+    // id = Number(request.params.id)
+    // const person =  persons.find(person=> person.id === id)
+    // if(person){
+    //     response.json(person)
 
-    }else{
-      response.status(404).end()
-    }
+    // }else{
+    //   response.status(404).end()
+    // }
+    Person.findById(request.params.id).then(person =>{
+      response.json(person)
+    })
 })
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT
 
 
 
