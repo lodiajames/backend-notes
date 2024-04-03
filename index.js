@@ -3,7 +3,8 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const Person = require('./models/person')
-const { default: mongoose } = require('mongoose')
+// const { default: mongoose } = require('mongoose')
+const process = require('process')
 app.use(cors())
 app.use(express.static('dist'))
 app.use(express.json())
@@ -33,7 +34,7 @@ app.get('/info', async (request, response)=>{
     const date = new Date(Date.now())
     response.send(`<p>${title} <br/><br/> ${date} </p>`)
   } catch(error){
-    console.error('Error counting number of persons:', err)
+    console.error('Error counting number of persons:', error)
     response.status(500).send('Internal server error')
   }
     
@@ -111,6 +112,7 @@ app.post('/api/persons', (request, response)=>{
 app.delete('/api/persons/:id', errorHandler, (request, response ,next)=>{
     Person.findByIdAndDelete(request.params.id)
       .then(result =>{
+        console.log(result)
         response.status(204).end()
       })
       .catch(error=> next(error))

@@ -1,4 +1,6 @@
 const mongoose = require('mongoose')
+const process = require('process')
+
 mongoose.set('strictQuery', false)
 
 const url = process.env.MONGODB_URI
@@ -6,8 +8,8 @@ const url = process.env.MONGODB_URI
 // console.log('connecting to ', url)
 
 mongoose.connect(url)
-    .then(result=>{
-        console.log(`connected to MONGODB`)
+    .then(()=>{
+        console.log(`connected to MONGODB` )
     }).catch(error=>{
         console.log('error connecting to MongoDB:', error.message)
     })
